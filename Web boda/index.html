@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boda Álvaro & Bea</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+
+/* ===== Estilo general ===== */
+body{
+    margin:0;
+    font-family:'Montserrat', sans-serif;
+    text-align:center;
+    color:#7a1f2b;
+    background-color:#f8f6f4;
+}
+
+/* ===== Encabezado integrado ===== */
+header{
+    position:absolute;
+    top:20px;
+    width:100%;
+    text-align:center;
+    z-index:10;
+    color:#7a1f2b;
+    text-shadow:0 2px 8px rgba(255,255,255,0.9);
+}
+
+header h1{
+    font-family:'Playfair Display', serif;
+    font-size:48px;
+    margin:0;
+}
+
+header p{
+    font-family:'Cormorant Garamond', serif;
+    font-size:22px;
+    margin-top:5px;
+}
+
+/* ===== Imagen completa ===== */
+.portada{
+    width:100%;
+}
+
+.portada img{
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+/* ===== Zona de confirmación ===== */
+.container{
+    max-width:650px;
+    margin:40px auto;
+    padding:40px 20px;
+    background:transparent;
+}
+
+/* Título */
+h3{
+    font-family:'Playfair Display', serif;
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+/* Formulario */
+input, select{
+    padding:12px;
+    width:260px;
+    border-radius:25px;
+    border:1px solid rgba(122,31,43,0.4);
+    font-size:16px;
+    margin:8px;
+    background:rgba(255,255,255,0.9);
+}
+
+/* Botón */
+button{
+    background:#7a1f2b;
+    color:white;
+    border:none;
+    padding:12px 28px;
+    border-radius:25px;
+    font-size:16px;
+    cursor:pointer;
+    margin:10px;
+}
+
+button:hover{
+    background:#5e1620;
+}
+
+.mensaje{
+    margin-top:15px;
+    font-weight:500;
+}
+
+/* Admin */
+.admin{
+    display:none;
+    margin-top:30px;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+li{
+    background:rgba(255,255,255,0.6);
+    margin:8px auto;
+    padding:10px;
+    border-radius:12px;
+    max-width:400px;
+}
+
+footer{
+    margin:40px 0;
+    font-family:'Cormorant Garamond', serif;
+    font-size:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>Álvaro & Bea</h1>
+    <p>Con la bendición de Dios</p>
+</header>
+
+<div class="portada">
+    <img src="https://i.ibb.co/kgws2XrG/save-the-date.png" alt="Invitación boda">
+</div>
+
+<div class="container">
+
+<h3>Confirma tu asistencia</h3>
+
+<input type="text" id="nombre" placeholder="Tu nombre"><br>
+
+<select id="acompananteSelect" onchange="mostrarCampoAcompanante()">
+<option value="no">Voy sin acompañante</option>
+<option value="si">Voy con acompañante</option>
+</select><br>
+
+<input type="text" id="nombreAcompanante" placeholder="Nombre del acompañante" style="display:none;"><br>
+
+<button onclick="confirmar()">Confirmar asistencia</button>
+
+<div class="mensaje" id="mensaje"></div>
+
+<br>
+<button onclick="accesoPrivado()">Zona privada organizadores</button>
+
+<div class="admin" id="admin">
+<h3>Lista de asistentes</h3>
+<ul id="lista"></ul>
+</div>
+
+</div>
+
+<footer>
+Unidos en la fe y en el amor
+</footer>
+
+<script>
+const firebaseConfig = {
+   apiKey: "AIzaSyAj7tXow187BShcnemVanshDqg_iVo1qjY",
+   authDomain: "boda-alvaro-bea-bueno.firebaseapp.com",
+   databaseURL: "https://boda-alvaro-bea-bueno-default-rtdb.firebaseio.com",
+   projectId: "boda-alvaro-bea-bueno",
+   storageBucket: "boda-alvaro-bea-bueno.firebasestorage.app",
+   messagingSenderId: "90317254915",
+   appId: "1:90317254915:web:2de1aa58a4898251cab936"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+function mostrarCampoAcompanante(){
+    let select = document.getElementById("acompananteSelect").value;
+    let campo = document.getElementById("nombreAcompanante");
+    campo.style.display = select === "si" ? "inline-block" : "none";
+}
+
+function confirmar(){
+    let nombre = document.getElementById("nombre").value.trim();
+    let vaCon = document.getElementById("acompananteSelect").value;
+    let nombreAcompanante = document.getElementById("nombreAcompanante").value.trim();
+    let mensaje = document.getElementById("mensaje");
+
+    if(nombre === ""){
+        mensaje.innerHTML = "Por favor escribe tu nombre";
+        return;
+    }
+
+    if(vaCon === "si" && nombreAcompanante === ""){
+        mensaje.innerHTML = "Escribe el nombre del acompañante";
+        return;
+    }
+
+    database.ref("asistentes").push({
+        nombre: nombre,
+        acompanante: vaCon === "si" ? nombreAcompanante : null
+    });
+
+    mensaje.innerHTML = "¡Gracias por confirmar!";
+    document.getElementById("nombre").value = "";
+    document.getElementById("nombreAcompanante").value = "";
+}
+
+function accesoPrivado(){
+    let clave = prompt("Introduce la contraseña:");
+
+    if(clave === "ALVAROBEA2026"){
+        let admin = document.getElementById("admin");
+        let lista = document.getElementById("lista");
+        lista.innerHTML = "";
+
+        database.ref("asistentes").once("value", function(snapshot){
+            snapshot.forEach(function(child){
+                let persona = child.val();
+                let li = document.createElement("li");
+
+                if(persona.acompanante){
+                    li.textContent = persona.nombre + " (con " + persona.acompanante + ")";
+                } else {
+                    li.textContent = persona.nombre;
+                }
+
+                lista.appendChild(li);
+            });
+        });
+
+        admin.style.display = "block";
+    } else {
+        alert("Contraseña incorrecta");
+    }
+}
+</script>
+
+</body>
+</html>
