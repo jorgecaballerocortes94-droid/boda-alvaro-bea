@@ -17,16 +17,18 @@
 /* ===== Estilo general ===== */
 body{
     margin:0;
+    padding:0;
     font-family:'Montserrat', sans-serif;
     text-align:center;
     color:#7a1f2b;
-    background-color:#f8f6f4;
+    background:#f8f6f4;
 }
 
-/* ===== Encabezado integrado ===== */
+/* ===== Encabezado ===== */
 header{
     position:absolute;
     top:20px;
+    left:0;
     width:100%;
     text-align:center;
     z-index:10;
@@ -46,8 +48,26 @@ header p{
     margin-top:5px;
 }
 
-/* ===== Imagen completa ===== */
+/* ===== Ajuste para móvil ===== */
+@media (max-width:768px){
+
+    header{
+        top:10px;
+        padding:0;
+    }
+
+    header h1{
+        font-size:30px;
+    }
+
+    header p{
+        font-size:16px;
+    }
+}
+
+/* ===== Imagen invitación ===== */
 .portada{
+    position:relative;
     width:100%;
 }
 
@@ -57,7 +77,7 @@ header p{
     display:block;
 }
 
-/* ===== Zona de confirmación ===== */
+/* ===== Zona confirmación (debajo de la imagen) ===== */
 .container{
     max-width:650px;
     margin:40px auto;
@@ -65,7 +85,6 @@ header p{
     background:transparent;
 }
 
-/* Título */
 h3{
     font-family:'Playfair Display', serif;
     font-size:32px;
@@ -80,10 +99,10 @@ input, select{
     border:1px solid rgba(122,31,43,0.4);
     font-size:16px;
     margin:8px;
-    background:rgba(255,255,255,0.9);
+    background:rgba(255,255,255,0.95);
 }
 
-/* Botón */
+/* Botones */
 button{
     background:#7a1f2b;
     color:white;
@@ -116,7 +135,7 @@ ul{
 }
 
 li{
-    background:rgba(255,255,255,0.6);
+    background:rgba(255,255,255,0.7);
     margin:8px auto;
     padding:10px;
     border-radius:12px;
@@ -141,7 +160,7 @@ footer{
 </header>
 
 <div class="portada">
-    <img src="https://i.ibb.co/kgws2XrG/save-the-date.png" alt="Invitación boda">
+    <img src="invitacion.jpg" alt="Invitación boda">
 </div>
 
 <div class="container">
