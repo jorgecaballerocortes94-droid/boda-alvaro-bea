@@ -34,6 +34,7 @@ header{
     z-index:10;
     color:#7a1f2b;
     text-shadow:0 2px 8px rgba(255,255,255,0.9);
+    padding:0 10px;
 }
 
 header h1{
@@ -48,26 +49,8 @@ header p{
     margin-top:5px;
 }
 
-/* ===== Ajuste para móvil ===== */
-@media (max-width:768px){
-
-    header{
-        top:10px;
-        padding:0;
-    }
-
-    header h1{
-        font-size:30px;
-    }
-
-    header p{
-        font-size:16px;
-    }
-}
-
 /* ===== Imagen invitación ===== */
 .portada{
-    position:relative;
     width:100%;
 }
 
@@ -77,12 +60,11 @@ header p{
     display:block;
 }
 
-/* ===== Zona confirmación (debajo de la imagen) ===== */
+/* ===== Zona confirmación ===== */
 .container{
     max-width:650px;
     margin:40px auto;
     padding:40px 20px;
-    background:transparent;
 }
 
 h3{
@@ -95,6 +77,7 @@ h3{
 input, select{
     padding:12px;
     width:260px;
+    max-width:90%;
     border-radius:25px;
     border:1px solid rgba(122,31,43,0.4);
     font-size:16px;
@@ -148,6 +131,45 @@ footer{
     font-size:20px;
 }
 
+/* ===== AJUSTES MÓVIL ===== */
+@media (max-width:768px){
+
+    /* Evita superposición del título */
+    header{
+        position:static;
+        margin-top:20px;
+        text-shadow:none;
+    }
+
+    header h1{
+        font-size:30px;
+    }
+
+    header p{
+        font-size:16px;
+    }
+
+    .container{
+        margin:20px auto;
+        padding:30px 15px;
+    }
+
+    input, select, button{
+        width:90%;
+        max-width:350px;
+        font-size:16px;
+    }
+
+    h3{
+        font-size:26px;
+    }
+
+    footer{
+        font-size:18px;
+        padding:0 10px;
+    }
+}
+
 </style>
 
 </head>
@@ -196,7 +218,7 @@ Unidos en la fe y en el amor
 
 <script>
 const firebaseConfig = {
-   apiKey: "AIzaSyAj7tXow187BShcnemVanshDqg_iVo1qjY",
+   apiKey: "TU_API_KEY",
    authDomain: "boda-alvaro-bea-bueno.firebaseapp.com",
    databaseURL: "https://boda-alvaro-bea-bueno-default-rtdb.firebaseio.com",
    projectId: "boda-alvaro-bea-bueno",
